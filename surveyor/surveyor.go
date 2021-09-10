@@ -148,7 +148,7 @@ func connect(opts *Options) (*nats.Conn, error) {
 		log.Printf("%q connection permanently lost!", c.Opts.Name)
 	}))
 	nopts = append(nopts, nats.ErrorHandler(func(c *nats.Conn, s *nats.Subscription, err error) {
-		if s != nil {
+		if s == nil {
 			log.Printf("Error: name=%q err=%v", c.Opts.Name, err)
 		} else {
 			log.Printf("Error: name=%q, subject=%s, err=%v", c.Opts.Name, s.Subject, err)
