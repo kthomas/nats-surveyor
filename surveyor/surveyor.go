@@ -54,6 +54,7 @@ type Options struct {
 	URLs                 string
 	Credentials          string
 	Nkey                 string
+	JWT                  string
 	NATSUser             string
 	NATSPassword         string
 	PollTimeout          time.Duration
@@ -115,6 +116,15 @@ func connect(opts *Options) (*nats.Conn, error) {
 	}
 
 	switch {
+	case opts.JWT != "":
+		nopts = append(nopts, nats.UserJWT(
+			func() (string, error) {
+				return opts.JWT, nil
+			},
+			func([]byte) ([]byte, error) {
+				return []byte{}, nil
+			},
+		))
 	case opts.Credentials != "":
 		nopts = append(nopts, nats.UserCredentials(opts.Credentials))
 	case opts.Nkey != "":
