@@ -2,12 +2,12 @@
 
 if [ $# -lt 3 ]
   then
-    echo "usage: survey.sh <url> <server count> <system credentials>"
+    echo "usage: survey.sh <url> <server count> <bearer jwt>"
     exit 1
 fi
 
 export NATS_SURVEYOR_SERVERS=$1
 export NATS_SURVEYOR_SERVER_COUNT=$2
-export NATS_SURVEYOR_CREDS=$3
+export NATS_SURVEYOR_JWT=$3
 docker-compose up
 

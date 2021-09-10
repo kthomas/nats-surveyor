@@ -6,15 +6,14 @@ networks:
 
 services:
   surveyor:
-    image: synadia/nats-surveyor:${SURVEYOR_DOCKER_TAG}
+    build: ../
     container_name: nats-surveyor
     restart: always
     volumes:
-      - $NATS_SURVEYOR_CREDS:/etc/surveyor/SYS.creds
       - ./observations:/observations
       - ./jetstream:/jetstream
     entrypoint: /nats-surveyor
-    command: -c ${NATS_SURVEYOR_SERVER_COUNT} -creds /etc/surveyor/SYS.creds -s "${NATS_SURVEYOR_SERVERS}" -observe /observations -jetstream /jetstream
+    command: -c ${NATS_SURVEYOR_SERVER_COUNT} -jwt "${NATS_SURVEYOR_JWT}" -s "${NATS_SURVEYOR_SERVERS}" -observe /observations #-jetstream /jetstream
     networks:
       - monitor-net
     labels:
